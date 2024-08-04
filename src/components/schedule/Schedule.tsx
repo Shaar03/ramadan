@@ -3,8 +3,8 @@ import gdsc from "@/assets/gdsc.png";
 import ScheduleFetcher from "@/utils/ScheduleFetcher";
 
 const Schedule = () => {
-  const username = "sample";
-  const password = "sample";
+  const username = "202111154";
+  const password = "2204017236";
   const semester = "20232";
 
   const { schedule, error } = ScheduleFetcher({ username, password, semester });
