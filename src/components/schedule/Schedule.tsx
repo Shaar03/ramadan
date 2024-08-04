@@ -3,8 +3,8 @@ import gdsc from "@/assets/gdsc.png";
 import ScheduleFetcher from "@/utils/ScheduleFetcher";
 
 const Schedule = () => {
-  const username = "202111154";
-  const password = "2204017236";
+  const username = import.meta.env.VITE_USERNAME;
+  const password = import.meta.env.VITE_PASSWORD;
   const semester = "20232";
 
   const { schedule, error } = ScheduleFetcher({ username, password, semester });
