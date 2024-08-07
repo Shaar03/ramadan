@@ -5,9 +5,18 @@ import ScheduleFetcher from "@/utils/ScheduleFetcher";
 const Schedule = () => {
   const username = import.meta.env.VITE_USERNAME;
   const password = import.meta.env.VITE_PASSWORD;
-  const semester = "20232";
+  const semester = 20232;
+  const langId = 0;
 
-  const { schedule, error } = ScheduleFetcher({ username, password, semester });
+  const sundayLeft = 6.6939579994;
+  const mondayLeft = 13;
+
+  const { schedule, error } = ScheduleFetcher({
+    username,
+    password,
+    semester,
+    langId,
+  });
 
   if (error) {
     return <div>{error}</div>;
@@ -44,35 +53,40 @@ const Schedule = () => {
             <p key={hour}>{hour}</p>
           ))}
         </div>
-        <div
-          className="flex-1 border p-[0.264583cm] rounded-[5px] border-solid border-[#ccc] h-[13.626041667cm]"
-          id="sunday"
-        >
-          <div className="absolute flex items-center justify-center flex-col h-[1.905cm] w-[4.23cm] rounded-[15px] left-[6.693958cm] top-[5.68854167cm] print:h-[1.905cm] print:w-[4.23cm] print:left-[2.96cm] print:top-[5.68854167cm] bg-lime-300">
-            <div>SWE 322</div>
-            <div>10:00am - 11:10am</div>
-          </div>
-        </div>
-        <div
-          className="flex-1 border p-[0.264583cm] rounded-[5px] border-solid border-[#ccc] h-[13.626041667cm]"
-          id="monday"
-        ></div>
-        <div
-          className="flex-1 border p-[0.264583cm] rounded-[5px] border-solid border-[#ccc] h-[13.626041667cm]"
-          id="tuesday"
-        ></div>
-        <div
-          className="flex-1 border p-[0.264583cm] rounded-[5px] border-solid border-[#ccc] h-[13.626041667cm]"
-          id="wednesday"
-        ></div>
-        <div
-          className="flex-1 border p-[0.264583cm] rounded-[5px] border-solid border-[#ccc] h-[13.626041667cm]"
-          id="thursday"
-        ></div>
+
+        {days.map((day) => (
+          <div
+            className="flex-1 border p-[0.264583cm] rounded-[5px] border-solid border-[#ccc] h-[13.626041667cm]"
+            key={day}
+            id={day}
+          ></div>
+        ))}
       </div>
+
       {schedule.map((course, index) => (
         <p key={index}>{course["courseCode"]}</p>
       ))}
+
+      <div
+        className={`absolute flex items-center justify-center flex-col h-[1.905cm] w-[4.23cm] rounded-[15px] left-[${sundayLeft}cm] top-[5.68854167cm] print:h-[1.905cm] print:w-[4.23cm] print:left-[2.96cm] print:top-[5.68854167cm] bg-lime-300`}
+      >
+        {/* height depends on duration 
+             left depends on day
+             top depends on start time
+          */}
+        <div>SWE 322</div>
+        <div>10:00am - 11:10am</div>
+      </div>
+      <div
+        className={`absolute flex items-center justify-center flex-col h-[1.905cm] w-[4.23cm] rounded-[15px] left-[${mondayLeft}cm] top-[5.68854167cm] print:h-[1.905cm] print:w-[4.23cm] print:left-[2.96cm] print:top-[5.68854167cm] bg-red-300`}
+      >
+        {/* height depends on duration 
+             left depends on day
+             top depends on start time
+          */}
+        <div>SWE 300</div>
+        <div>10:00am - 11:10am</div>
+      </div>
     </div>
   );
 };
