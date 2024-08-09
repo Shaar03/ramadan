@@ -7,6 +7,18 @@ type Credentials = {
   langId: number;
 };
 
+type TimeTable = {
+  day: string;
+  room: string;
+  time: string;
+};
+
+type Course = {
+  courseCode: string;
+  courseDeleted: boolean;
+  timeTable: Array<TimeTable>;
+};
+
 const ScheduleFetcher = ({
   username,
   password,
@@ -14,8 +26,8 @@ const ScheduleFetcher = ({
   langId,
 }: Credentials) => {
   console.log(username, password, semester);
-  const [schedule, setSchedule] = useState([]);
-  const [error, setError] = useState(null);
+  const [schedule, setSchedule] = useState<Course[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const scheduleURL = `http://localhost:8080/yu/ramadan/schedule/${semester}?langId=${langId}`;
 
@@ -40,7 +52,7 @@ const ScheduleFetcher = ({
         }
         return response.json();
       })
-      .then((data) => setSchedule(data))
+      .then((data: Course[]) => setSchedule(data))
       .catch((error) => setError(error.message));
   }, [username, password, semester, langId, scheduleURL]);
 
