@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -46,7 +47,13 @@ export default function LoginForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  const navigate = useNavigate();
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    navigate("/schedule", {
+      state: { id: data.id, password: data.password },
+    });
+  }
 
   const [showPassword, setShowPassword] = useState(false);
 
