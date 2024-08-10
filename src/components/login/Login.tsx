@@ -50,6 +50,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    localStorage.setItem("user", data.id);
     navigate("/schedule", {
       state: { id: data.id, password: data.password },
     });
