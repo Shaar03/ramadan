@@ -30,10 +30,10 @@ import { Eye, EyeOff } from "lucide-react";
 const FormSchema = z.object({
   id: z
     .string()
-    .min(9, {
-      message: "ID must be 9 characters.",
-    })
+    .trim()
+    .min(9, { message: "ID must be 9 characters." })
     .max(9, { message: "ID must be 9 characters." })
+    .regex(/^20[0-9]\d{6}$/, { message: "Not a valid YU ID" })
     .trim(),
   password: z.string().min(1, { message: "Password is required." }).trim(),
 });
