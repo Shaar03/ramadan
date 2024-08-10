@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-type Credentials = {
-  username: string;
+type RequestData = {
+  id: string;
   password: string;
   semester: number;
   langId: number;
@@ -19,13 +19,8 @@ type Course = {
   timeTable: Array<TimeTable>;
 };
 
-const ScheduleFetcher = ({
-  username,
-  password,
-  semester,
-  langId,
-}: Credentials) => {
-  console.log(username, password, semester);
+const ScheduleFetcher = ({ id, password, semester, langId }: RequestData) => {
+  console.log(id, password, semester);
   const [schedule, setSchedule] = useState<Course[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,7 +37,7 @@ const ScheduleFetcher = ({
         Accept: "application/json",
       },
       body: JSON.stringify({
-        username,
+        id,
         password,
       }),
     })
@@ -54,7 +49,7 @@ const ScheduleFetcher = ({
       })
       .then((data: Course[]) => setSchedule(data))
       .catch((error) => setError(error.message));
-  }, [username, password, semester, langId, scheduleURL]);
+  }, [id, password, semester, langId, scheduleURL]);
 
   return { schedule, error };
 };

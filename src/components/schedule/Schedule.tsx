@@ -1,9 +1,15 @@
+import { useLocation } from "react-router-dom";
 import gdsc from "@/assets/gdsc.png";
 import ScheduleFetcher from "@/utils/ScheduleFetcher";
 
+type Credentials = {
+  id: string;
+  password: string;
+};
+
 const Schedule = () => {
-  const username = import.meta.env.VITE_USERNAME;
-  const password = import.meta.env.VITE_PASSWORD;
+  const location = useLocation();
+  const { id, password }: Credentials = location.state || {};
   const semester = 20241;
   const langId = 0;
 
@@ -52,7 +58,7 @@ const Schedule = () => {
   ]);
 
   const { schedule, error } = ScheduleFetcher({
-    username,
+    id,
     password,
     semester,
     langId,
@@ -90,7 +96,7 @@ const Schedule = () => {
       return hour * 60 + minute;
     };
 
-    let startMinutes = parseTime(startTime);
+    const startMinutes = parseTime(startTime);
     let endMinutes = parseTime(endTime);
 
     // If start time is greater than end time, assume end time is PM
