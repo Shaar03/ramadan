@@ -2,6 +2,9 @@ import { useLocation } from "react-router-dom";
 import Schedule from "@/components/schedule/Schedule";
 import ScheduleFetcher from "@/utils/ScheduleFetcher";
 import Error from "@/components/error/Error";
+import { hourglass } from "ldrs";
+
+hourglass.register();
 
 type Credentials = {
   id: string;
@@ -25,7 +28,14 @@ const SchedulePage = () => {
     <>
       {error && <Error message={error} />}
       {schedule && <Schedule />}
-      {!schedule && !error && <div>Loading...</div>}
+      {!schedule && !error && (
+        <l-hourglass
+          size="80"
+          bg-opacity="0.1"
+          speed="1.75"
+          color="orange"
+        ></l-hourglass>
+      )}
     </>
   );
 };

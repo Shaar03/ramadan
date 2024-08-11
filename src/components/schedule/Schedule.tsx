@@ -1,6 +1,8 @@
 import { useLocation } from "react-router-dom";
 import gdsc from "@/assets/gdsc.png";
 import ScheduleFetcher from "@/utils/ScheduleFetcher";
+import Loader from "@/components/loader/Loader";
+import Error from "../error/Error";
 
 type Credentials = {
   id: string;
@@ -40,7 +42,7 @@ const Schedule = () => {
 
   const getUniqueColor = () => {
     if (colorPool.length === 0) {
-      throw new Error("No more unique colors available.");
+      <Error message="No more colors available" />;
     }
 
     const randomIndex = Math.floor(Math.random() * colorPool.length);
@@ -65,11 +67,11 @@ const Schedule = () => {
   });
 
   if (error) {
-    return <div>{error}</div>;
+    return <Error message={error} />;
   }
 
   if (!schedule || schedule.length === 0) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
