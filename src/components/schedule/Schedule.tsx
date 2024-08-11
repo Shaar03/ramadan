@@ -161,14 +161,11 @@ const Schedule = () => {
           const daysArray = day.trim().split(" ");
           return daysArray.map((courseDay, dayIndex) => {
             const leftPosition = left.get(courseDay.trim());
-            const [startHour, endHour] = time.trim().split(" - ");
+            const [startTime, endTime] = time.trim().split(" - ");
             const startHourIndex = hours.indexOf(
-              parseInt(startHour.split(" ")[0])
+              parseInt(startTime.split(" ")[0])
             );
-            console.log(`${courseCode}: `);
-            getFiveMinuteIntervals(startHour, endHour);
             const topPosition = startHourIndex >= 0 ? startHourIndex * 2 : 0;
-
             return (
               <div
                 key={`${courseIndex}-${timeIndex}-${dayIndex}`}
@@ -179,12 +176,12 @@ const Schedule = () => {
                   top: `${topPosition}cm`,
                 }}
               >
-                <p>{startHour}</p>
+                <p>{startTime}</p>
                 <div>
                   <p>{courseCode}</p>
                   <p className="text-center">{room}</p>
                 </div>
-                <p className="text-center">{endHour}</p>
+                <p className="text-center">{endTime}</p>
               </div>
             );
           });
