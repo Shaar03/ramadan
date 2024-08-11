@@ -33,7 +33,7 @@ const FormSchema = z.object({
     .trim()
     .min(9, { message: "ID must be 9 characters." })
     .max(9, { message: "ID must be 9 characters." })
-    .regex(/^20[0-9]\d{6}$/, { message: "Not a valid YU ID" })
+    .regex(/^20[012]\d{6}$/, { message: "Not a valid YU ID" })
     .trim(),
   password: z.string().min(1, { message: "Password is required." }).trim(),
 });
