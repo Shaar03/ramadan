@@ -42,11 +42,12 @@ const Schedule = () => {
 
   const getUniqueColor = () => {
     if (colorPool.length === 0) {
+      //TODO: render this properly, no component is showing when there is an error
       <Error message="No more colors available" />;
     }
 
     const randomIndex = Math.floor(Math.random() * colorPool.length);
-    const color = colorPool.splice(randomIndex, 1)[0]; // Remove color from pool
+    const color = colorPool.splice(randomIndex, 1)[0];
 
     return color;
   };
@@ -77,13 +78,10 @@ const Schedule = () => {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
   const hours = [8, 9, 10, 11, 12, 1, 2, 3, 4, 5];
 
-  // Map to store course color
   const courseColorMap = new Map();
 
-  // Function to get a color for a course
   const getCourseColor = (courseCode: string) => {
     if (!courseColorMap.has(courseCode)) {
-      // Get a unique color for the course
       const color = getUniqueColor();
       courseColorMap.set(courseCode, color);
     }
@@ -91,28 +89,36 @@ const Schedule = () => {
   };
 
   const getFiveMinuteIntervals = (startTime: string, endTime: string) => {
-    const parseTime = (timeStr: string) => {
-      const [hourStr, minuteStr] = timeStr.split(":");
-      const hour = parseInt(hourStr, 10);
-      const minute = parseInt(minuteStr, 10);
-      return hour * 60 + minute;
-    };
+    const { hour: startHour, minute: startMinute } =
+      parseTimeToNumber(startTime);
+    const { hour: endHour, minute: endMinute } = parseTimeToNumber(endTime);
 
-    const startMinutes = parseTime(startTime);
-    let endMinutes = parseTime(endTime);
+    let hourDifference =
+      endHour >= startHour ? endHour - startHour : 12 - startHour + endHour;
+    let minuteDifference =
+      endMinute >= startMinute
+        ? endMinute - startMinute
+        : startMinute - endMinute;
 
-    // If start time is greater than end time, assume end time is PM
-    if (startMinutes > endMinutes) {
-      endMinutes += 12 * 60; // Add 12 hours worth of minutes
+    if (startMinute > endMinute) {
+      hourDifference -= 1;
+      minuteDifference = 60 - minuteDifference;
     }
 
-    // Calculate the total minutes between the start and end times
-    const totalMinutes = endMinutes - startMinutes;
+    console.log(hourDifference, minuteDifference);
+    console.log(
+      `Five minute Interval: ${hourDifference * 12 + minuteDifference / 5}`
+    );
 
-    // Calculate the number of 5-minute intervals
-    const intervals = Math.floor(totalMinutes / 5);
+    return hourDifference * 12 + minuteDifference / 5;
+  };
 
-    return intervals;
+  const parseTimeToNumber = (time: string) => {
+    const [hourString, minuteString] = time.split(" ")[0].split(":");
+    const hour = parseInt(hourString);
+    const minute = parseInt(minuteString);
+
+    return { hour, minute };
   };
 
   return (
@@ -159,9 +165,8 @@ const Schedule = () => {
             const startHourIndex = hours.indexOf(
               parseInt(startHour.split(" ")[0])
             );
-            console.log(
-              getFiveMinuteIntervals(startHour, endHour) + courseCode
-            );
+            console.log(`${courseCode}: `);
+            getFiveMinuteIntervals(startHour, endHour);
             const topPosition = startHourIndex >= 0 ? startHourIndex * 2 : 0;
 
             return (
